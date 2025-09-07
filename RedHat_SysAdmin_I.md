@@ -1,11 +1,62 @@
+these are notes for Red Hat Enterprise Linux System Administration I 
 
-## Quick access
+ these notes is taken based on the following Resources:
+- [Course: Red Hat System Administration - I | Mahara-Tech](https://maharatech.gov.eg/course/view.php?id=2115)
+- The Linux Command Line Book (by William Shotts)
+- Linux BIBLE - Tenth Edition (by Christopher Negus)
+
+
+<br>
+<br>
+<br>
+
+
+## Quick Access Content 
 
 [CH03_Managing Files From the Command Line](#ch03_managing-files-from-the-command-line)
 
 <br>
 <br>
 <br>
+
+
+### CH01_Install RHEL 9 Step by Step
+
+#### Prerequisites To Install Red Hat Enterprise Linux on VMWare Workstation
+##### OPTION 1
+1. Download VMWare Workstation or Virtual Box
+2. RHEL 9 ISO image:
+  to download RHEL 9 for free, use following portal Red Hat Enterprise Linux product: 
+  [access.redhat.com/downloads/content/rhel](https://access.redhat.com/downloads/content/rhel)
+
+<img width="1196" height="376" alt="Pasted image 20250907074143" src="https://github.com/user-attachments/assets/deafefdd-f96e-41db-9fa7-15dd15ea329d" />
+
+
+
+> **NOTE!:** Ensure that hardware virtualization support is turned on in the BIOS settings
+
+##### OPTION 2 
+create a vm on GCP using the credit gift $300, RHEL subscription is bundled in the VM price
+
+<br>
+
+#### minimal requirements for RHEL virtual machine 
+- RAM >= 2GB 
+- CPU  ==> Dual or Quad core processor
+- Storage >= 20G
+	- 10 GB for `root /`
+	- 1 GB for swap 
+	- 4 GB for `/home` 
+	- 512 MB for `/boot`
+- Network Connection 
+- Installation media 
+
+
+
+<br>
+<br>
+<br>
+
 
 ### CH02_Accessing the Command Line
 - A command line is a **text-based interface** which can be used to input instructions to a computer system.
@@ -198,7 +249,7 @@ rmdir directory   # Remove an empty directory
 <br>
 
 
-#### Create hard links and soft links.
+#### Create hard links and soft links.  & what is Inode Index
 
 A **link** in Linux is a **pointer to a file or Directory**. 
 Like pointers in any programming languages, links in Linux are pointers pointing to a file or a directory. 
@@ -1955,6 +2006,7 @@ ip -s link show DEVICE_NAME   # Display interface statistics
 
 
 <br>
+
 #### Testing Connectivity Between Hosts
 
 ```Bash
@@ -2151,4 +2203,869 @@ nmcli con up ens160
 <br>
 <br>
 <br>
+
+
+### CH13_Archiving and Transferring Files (DONE)
+
+#### Managing compressed TAR Archives
+Archiving and compressing files are useful when **creating backups** and **transferring data** across a network.
+One of **the oldest** and **most common commands** for creating and working with backup archives is the **tar** command.
+#####  tar command
+The tar command expects one of the three following options:
+
+```Bash
+-t, --list       # Create a new archive.
+-c, --create     # Extract from an existing archive.
+-x, --extract    # List the table of contents of an archive.
+-v, --verbose  # Verbose. Shows which files get archived or extracted.
+-f, --file=    # File name. This option must be followed by the file name of the archive to use or create.
+-p, --preserve-permissions  # Preserve the permissions of files and directories when extracting an archive, without subtracting the umask.
+```
+
+
+##### archiving files & directories
+
+**Some Examples**
+```Bash
+
+# creates an archive named archive.tar With the contents of file1, file2, and file3.
+tar -cf archive.tar filel file2 file3 
+
+# the same command in long version:
+tar --file=archive.tar --create filel file2 file3
+
+# create a backup of /etc 
+tar -cvf etc_backup_date.tar /etc
+```
+
+
+<img width="991" height="308" alt="Pasted image 20250906085638" src="https://github.com/user-attachments/assets/c339a94e-2a20-48e5-b24d-7107cf5547de" />
+
+
+
+
+##### create compressed archive 
+
+The tar command supports **three compression methods**:
+- #### gzip
+- #### bzip2
+- #### xz
+
+**options to create a compressed tar archive:**
+```Bash
+-z, --gzip   # Use gzip compression (.tar.gz)
+-j, -bzip2   # Use bzip2 compression (.tar.bz2)
+-J, --XZ     # Use xz compression (.tar.xz)
+```
+
+**Note!!**
+- **bzip2** typically archieves a **better** compression ratio **than** **gzip**.
+- The **xz** compression typically archieves a **better** compression ratio **than bzip2**.
+- it looks like:
+	- xz > bzip2 > gzip 
+<img width="1007" height="549" alt="Pasted image 20250906091329" src="https://github.com/user-attachments/assets/4fe39942-5e82-44f3-aa2d-ecfa3be11175" />
+
+
+
+##### compress & extract files using gzip, bzip2, xz 
+- Additionally, **gzip, bzip2**, and **xz** can be used independently **to compress single files**.
+- The corresponding commands to **decompress** are **gunzip**, **bunzip2** and **unxz**.
+
+```Bash 
+gzip etc.tar
+bzip2 abc.tar
+xz myarchive.tar
+
+gunzip etc.tar.gz
+bunzip2 abc.tar.bz2
+unxz myarchive.tar.xz
+```
+
+<br>
+
+#### Transferring Files & Directories
+
+#####  transferring files using secure copy scp
+
+The Secure Copy command (**scp**) which is **part of the OpenSSH suite**, 
+**copies files** from a **remote system** to the **local system** or vise versa  
+
+The following example demonstrates how to copy the local **/etc/yum.conf** and **/etc/hosts** files on
+host, **to the remote user's home directory** on the remote host remote system:
+```Bash 
+scp /etc/yum.conf /etc/hosts remoteuser@remotehost:/home/remoteuser
+```
+
+
+##### transferring files using secure file transfer program sftp 
+
+To **interactively** **upload or download files** from SSH server, 
+use the Secure File Transfer Program (**sftp**). 
+
+A session with the sftp command **uses** the **secure authentication** mechanism and **encrypted data**
+**transfer** to and from the SSH server.
+```Bash 
+sftp remoteuser@remotehost
+remoteuser@remotehost's password: password
+Connected to remotehost.
+sftp>
+
+```
+
+
+<br>
+<br>
+<br>
+
+
+### CH14_Installing and Updating Software Packages (DONE)
+
+The most important determinant of distribution quality is the packaging system and the vitality of the distribution's support community.
+
+Package management is a method of installing and maintaining software on the system.
+Today, most people can satisfy all of their software needs by installing packages from their Linux distributor. This contrasts with the early days of Linux, when one had to download and compile source code to install software. There isn’t anything wrong with compiling source code; in fact, having access to source code is the great wonder of Linux. It gives us (and everybody else) the ability to examine and improve the system. It's just that having a precompiled package is faster and easier to deal with.
+
+In this chapter, we will look at some of the command line tools used for package manage ment. While all the major distributions provide powerful and sophisticated graphical pro grams for maintaining the system, it is important to learn about the command line pro grams, too. They can perform many tasks that are difficult (or impossible) to do with their graphical counterparts.
+
+<br>
+
+#### Packaging Systems
+Different distributions use different packaging systems, and as a general rule, 
+a **package** intended for one **distribution** is **not compatible** with **another distribution**. 
+
+Most distributions fall into one of two camps of packaging technologies:
+- Debian **.deb** camp 
+- Red Hat **.rpm** camp. 
+There are some important exceptions such as **Gentoo**, **Slackware**, and **Arch**, but most others use one of these two basic systems.
+
+<img width="1016" height="200" alt="Pasted image 20250901055708" src="https://github.com/user-attachments/assets/5df1fcf5-2954-41b0-b2a2-86f122e78273" />
+
+
+
+<br>
+
+
+#### How a Package System Works
+The method of software distribution found in the proprietary software industry usually entails buying a piece of installation media such as an “install disk” or visiting a vendor's web site and downloading a product and then running an “installation wizard” to install a new application on the system. 
+Linux doesn't work that way. Virtually all software for a Linux system will be found on the Internet. Most of it will be provided by the distribution vendor in the form of package files, and the rest will be available in source code form that can be installed manually.
+
+##### Package Files
+**The basic unit of software in a packaging system is the package file**. A package file is a **compressed collection** **of files** that comprise the software package. A package may consist of numerous programs and data files that support the programs.
+
+**Package files** are **created by** a person known as a **package maintainer**, often (but not always) an **employee of the distribution vendor**. 
+The package maintainer **gets the software in source code form** from the **upstream provider** (the author of the program), **compiles it**, and **creates** the package **metadata** and **any necessary installation scripts**. Often, the package maintainer **will apply modifications** to the **original source code** to improve the program's integration with the other parts of the Linux distribution.
+
+
+##### Repositories
+While some software projects choose to perform their own packaging and distribution, most packages today are created by the distribution vendors and interested third parties. 
+**Packages** are made **available to the users** of a distribution **in central repositories** that may **contain many thousands of packages**, each specially built and maintained for the distribution.
+
+A distribution may maintain several different repositories for different stages of the soft ware development life cycle. For example: 
+- there will usually be a **(testing) repository**.
+- A distribution will often have a **“(development)” repository**.
+- A distribution may also have related **(third-party) repositories**.
+
+##### Dependencies
+**Programs are seldom** “standalone”; rather they **rely on the presence of other software** components to get their work done.
+
+If a package **requires a shared resource** such as a shared library, it is **said to have a dependency**. Modern package management systems all provide some method of dependency resolution to ensure that when a package is installed, all of its dependencies are installed, too.
+
+
+<br>
+
+
+#### High and Low-level Package Tools
+
+Package management systems usually consist of two types of tools:
+- **Low-level** tools which **handle tasks** such as **installing** and **removing** package files.
+- **High-level** tools that **perform metadata searching** and **dependency resolution**.
+
+| Distributions                                        | Low-Level Tools | High-Level Tools       |
+| ---------------------------------------------------- | --------------- | ---------------------- |
+| **Debian style**                                     | **dpkg**        | **apt, apt-get, aptitude** |
+| **Fedora, <br>Red Hat Enterprise Linux, <br>CentOS** | **rpm**         | **yum, dnf**               |
+
+<br>
+
+#### Common Package Management Tasks
+
+In the discussion below:
+- the term **package_name** refers to the **actual name of a package**.
+- the term **package_file** refers to the **name of the file that contains the package**.
+
+
+**Note!**
+<img width="1227" height="452" alt="Pasted image 20250901073400" src="https://github.com/user-attachments/assets/75ac459e-26b3-46f9-bef7-b6ad46c53f8c" />
+
+
+
+##### Finding a Package in a Repository
+Using the high-level tools to search repository metadata, a package can be located based on its name or description
+
+<img width="1061" height="246" alt="Pasted image 20250901070451" src="https://github.com/user-attachments/assets/d0f185f6-160b-45da-8855-36db326e00c0" />
+
+
+For example, to search a yum repository for the emacs text editor, we can use this command:
+```Bash
+yum search emacs
+```
+
+
+##### Installing a Package from a Repository
+High-level tools permit a package to be downloaded from a repository and installed with full dependency resolution
+
+###### Package Installation Commands
+
+| Style       | Command(s)                                      |
+| ----------- | ----------------------------------------------- |
+| **Debian**  | **apt-get update <br>apt-get install package_name** |
+| **Red Hat** | **yum install package_name**                        |
+
+For example, to install the emacs text editor from yum repository on a Red Hat system, we can use this command: 
+```Bash 
+yum install emacs
+```
+
+
+##### Installing a Package from a Package File
+If a package file has been downloaded from a source other than a repository, it can be installed directly (though without dependency resolution) using a low-level tool
+
+<img width="1066" height="217" alt="Pasted image 20250901070728" src="https://github.com/user-attachments/assets/6ed3b787-9acd-4e5f-8690-25d89b911d17" />
+
+
+For example, if the `emacs-22.1-7.fc7-i386.rpm` package file had been down loaded from a non-repository site, it would be installed this way:
+```Bash
+rpm -i emacs-22.1-7.fc7-i386.rpm
+```
+
+> **Note:** Because this technique uses the low-level rpm program to perform the installation, no dependency resolution is performed. 
+> If rpm discovers a missing de pendency, rpm will exit with an error.
+
+
+##### Removing a Package
+Packages can be uninstalled using either the high-level or low-level tools.
+
+<img width="1073" height="215" alt="Pasted image 20250901070757" src="https://github.com/user-attachments/assets/84405dd5-09ee-4beb-937d-77ac98eef078" />
+
+
+
+##### Updating Packages from a Repository
+The most common package management task is keeping the system up-to-date with the latest versions of packages. The high-level tools can perform this vital task in a single step
+
+<img width="1045" height="203" alt="Pasted image 20250901070827" src="https://github.com/user-attachments/assets/3f2081c5-6ac9-4f95-8985-1af971ba5364" />
+
+
+
+##### Upgrading a Package from a Package File
+If an updated version of a package has been downloaded from a non-repository source, it can be installed, replacing the previous version
+
+| Style   | Command(s)           |
+| ------- | -------------------- |
+| **Debian**  | **dpkg -i package_file** |
+| **Red Hat** | **rpm -U package_file**  |
+
+For example, to update an existing installation of emacs to the version contained in the package file `emacs-22.1-7.fc7-i386.rpm` on a Red Hat system, we can use this command: 
+```Bash 
+rpm -U emacs-22.1-7.fc7-i386.rpm
+```
+
+> **Note**: dpkg does not have a specific option for upgrading a package versus in stalling one as rpm does.
+
+
+##### Listing Installed Packages
+to display a list of all the packages installed on the system.
+
+<img width="1050" height="207" alt="Pasted image 20250901071106" src="https://github.com/user-attachments/assets/b33df146-f7af-43be-ae42-b7eded154d1c" />
+
+
+
+##### Determining Whether a Package is Installed
+to display whether a specified package is installed.
+
+<img width="1053" height="202" alt="Pasted image 20250901071122" src="https://github.com/user-attachments/assets/3627b015-54f7-4972-b77e-90dc70399d98" />
+
+
+
+##### Displaying Information About an Installed Package
+If the name of an installed package is known, we can use the commands in the figure to display a description of the package.
+
+<img width="1051" height="215" alt="Pasted image 20250901071141" src="https://github.com/user-attachments/assets/3ac82ac0-e482-4547-9a41-9ea0eb01441f" />
+
+
+
+
+##### Finding Which Package Installed a File
+To determine what package is responsible for the installation of a particular file.
+
+<img width="1042" height="201" alt="Pasted image 20250901071239" src="https://github.com/user-attachments/assets/7b2c8292-2a43-4153-98a1-b5c9ed330ad3" />
+
+
+For example, to see what package installed the `/usr/bin/vim` file on a Red Hat system, we can use this command: 
+```Bash
+rpm -qf /usr/bin/vim
+```
+
+<br>
+
+#### Notes 
+##### some common options of rpm low-level tool
+
+```Bash 
+rpm -qa              # List all installed packages
+rpm -qf package_file # Find out what package provides FILENAME
+rpm -q yum           # List what version of the package is currently installed
+rpm -qi yum          # Get detailed information about the package
+rpm -ql yum          # List the files installed by the package
+rpm -qc yum          # List just the configuration files installed by the package
+rpm -gd yum          # List just the documentation files installed by the package
+rpm -q --scripts package_file  # List shell scripts that run before or after the package is installed or removed
+rpm -q --changelog   # list change information for the package
+
+# to install a package: 
+rpm -ivh package_file  
+# -i --->  install package(s)
+# -v ---> Verbosity provide more detailed output
+# -h ---> Installation progress
+```
+
+
+##### Repo configuration
+There are Two main repositories in Red Hat:
+- #### BaseOS repository 
+  mainly concerns the operating system.
+- #### AppStream repository 
+  contains application modules and non-modular RPMs.
+**Both of these two repos are necessary part** of a Rad Hat Enterprise Linux 9 systems
+
+<img width="722" height="354" alt="Pasted image 20250901081021" src="https://github.com/user-attachments/assets/6b32e0a9-ea4e-477f-aa9d-806c14f7b7e9" />
+
+
+
+###### How to configure a repository in Red Hat Enterprise Linux 
+
+1. change your current directory to **/etc/yum.repos.d/**
+```Bash 
+cd /etc/yum.repos.d/
+```
+
+2. create **two main files**, **one for BaseOS repo** and **another for AppStream repo**
+```Bash 
+touch  BaseOS.repo  AppStream.repo # you can name these repos as you like :)
+```
+
+3. configure each file (add repo definition)
+```Bash
+# BaseOS.repo 
+
+[Local_BaseOS] 
+name="this is local BaseOS repo"   # repo description 
+baseurl=file:///repo_path          # baseurl= URL, FTP, or file path to repo.
+enable=1    # 1 --> enable this repo,  0 --> disable this repo 
+gpgcheck=0  # verify package signatures. when you have RHEL subscription
+gpgkey=KEY_PATH  # this parameter is not set if gpgchek=0
+# ========================================================== # 
+
+# AppStream.repo
+
+[Local_AppStream] 
+name="this is local AppStream repo"  
+baseurl=file:///repo_path          
+enable=1    
+gpgcheck=0  
+gpgkey=KEY_PATH  # this parameter is not set if gpgchek=0
+```
+
+
+
+<br>
+
+#### Additional Resources 
+- The Debian GNU/Linux FAQ chapter on package management provides an over view of package management on Debian systems : 
+  http://www.debian.org/doc/FAQ/ch-pkgtools.en.html 
+- The home page for the RPM project: http://www.rpm.org
+- The home page for the YUM project: http://yum.baseurl.org
+
+
+
+
+<br>
+<br>
+<br>
+
+
+### CH15_ Accessing Linux File Systems (DONE)
+In this chapter, we will consider data at the device level. Linux has amazing capabilities for handling storage devices, whether physical storage, such as hard disks, network storage, or virtual storage devices such as RAID (Redundant Array of Independent Disks) and LVM (Logical Vol ume Manager).
+
+<br>
+
+#### Mounting and Unmounting Storage Devices
+The **first step** in managing a storage device is **attaching the device to the file system tree**. 
+This process, called **mounting**, **allows the device to interact with the operating system**.
+
+Unix-like operating systems, like Linux, maintain a **single file system tree with devices attached at various points**. This contrasts with other operating systems such as MS-DOS and Windows that **maintain separate file system trees for each device** (for example C:\, D:\, etc.).
+
+A file named **/etc/fstab** (short for “file system table”) lists the devices (typically hard disk partitions) that are to be **mounted at boot time**.
+
+Here is an example **/etc/fstab** file from an **early Fedora system**:
+```Bash
+LABEL=/12       /          ext4     defaults         1 1 
+LABEL=/home     /home      ext4     defaults         1 2 
+LABEL=/boot     /boot      ext4     defaults         1 2 
+tmpfs           /dev/shm   tmpfs    defaults         0 0 
+devpts          /dev/pts   devpts   gid=5,mode=620   0 0 
+sysfs           /sys       sysfs    defaults         0 0 
+proc            /proc      proc     defaults         0 0 
+LABEL=SWAP-sda3 swap       swap     defaults         0 0
+```
+
+
+These are the hard disk partitions. Each line of the file consists of six fields:
+
+| Field | Contents         | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| ----- | ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1     | Device           | Traditionally, this field contains the actual name of a device file associated with the physical device, such as **/dev/sda1** (the first partition of the first detected hard disk). But with today's computers, which have many devices that are hot pluggable (like USB drives), many modern Linux distributions associate a device with a text label instead. <br>This label (which is added to the storage media when it is formatted) can be either a **simple text** label or a **randomly generated UUID** (Universally Unique Identifier). <br>This label is read by the operating system when the device is attached to the system. That way, no matter which device file is assigned to the actual physical device, it can still be correctly identified. |
+| 2     | Mount point      | The directory where the device is attached to the file system tree.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| 3     | File system type | Linux allows many file system types to be mounted. Most native Linux file systems are Fourth Extended File System (**ext4**), but many others are supported, such as:<br>FAT16 (**msdos**), FAT32 (**vfat**), NTFS (**ntfs**), CD-ROM (**iso9660**), etc                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| 4     | Options          | File systems can be mounted with various options. <br>It is possible, for example, to mount file systems as read only or to prevent any programs from being executed from them <br>(a useful security feature for removable media)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| 5     | Frequency        | A single number that specifies if and when a file system is to be backed up with the dump command.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| 6     | Order            | A single number that specifies in what order file systems should be checked with the fsck command                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+
+
+##### Viewing a List of Mounted File Systems
+The **mount** command is used to mount file systems. Entering the command without arguments will **display a list of the file systems currently mounted**:
+
+```Bash
+[me@linuxbox ~]$ mount 
+/dev/sda2 on / type ext4 (rw) 
+proc on /proc type proc (rw) 
+sysfs on /sys type sysfs (rw) 
+devpts on /dev/pts type devpts (rw,gid=5,mode=620) 
+/dev/sda5 on /home type ext4 (rw) 
+/dev/sda1 on /boot type ext4 (rw)
+tmpfs on /dev/shm type tmpfs (rw) 
+none on /proc/sys/fs/binfmt_misc type binfmt_misc (rw) 
+sunrpc on /var/lib/nfs/rpc_pipefs type rpc_pipefs (rw) 
+fusectl on /sys/fs/fuse/connections type fusectl (rw) 
+/dev/sdd1 on /media/disk type vfat (rw,nosuid,nodev,noatime, uhelper=hal,uid=500,utf8,shortname=lower) 
+twin4:/musicbox on /misc/musicbox type nfs4 (rw,addr=192.168.1.4)
+```
+
+
+
+>**Note!**  A mount point is simply a directory somewhere on the file system tree. There’s nothing special about it. It doesn't even have to be an empty directory, though if you mount a device on a non-empty directory, you will not be able to see the directory's previous contents until you unmount the device.
+
+
+###### Why Unmounting Is Important 
+If you look at the output of the free command, which displays statistics about memory usage, you will see a statistic called buffers. Computer systems are de signed to go as fast as possible. One of the impediments to system speed is slow devices.
+
+Printers are a good example. Even the fastest printer is extremely slow by computer standards. 
+A computer would be very slow indeed if it had to stop and wait for a printer to finish printing a page. In the early days of PCs (before multi-tasking), this was a real problem. If you were working on a spreadsheet or text document, the computer would stop and become unavailable every time you printed. The computer would send the data to the printer as fast as the printer could accept it, but it was very slow since printers don't print very fast.
+
+This problem was solved by the advent of the printer buffer, a device containing some RAM memory that would sit between the computer and the printer.
+
+with the printer buffer in place, the computer would send the printer output to the buffer, and it would quickly be stored in the fast RAM so the computer could go back to work without waiting. Meanwhile, the printer buffer would slowly spool the data to the printer from the buffer's memory at the speed at which the printer could accept it.
+
+This idea of buffering is used extensively in computers to make them faster. Don't let the need to occasionally read or write data to or from slow devices impede the speed of the system. Operating systems store data that has been read from and is to be written to storage devices in memory for as long as possible before actually having to interact with the slower device. 
+
+On a Linux system, for example, you will notice that the system seems to fill up memory the longer it is used. This does not mean Linux is “using” all the memory; it means that Linux is taking advantage of all the available memory to do as much buffering as it can.
+
+This buffering allows writing to storage devices to be done very quickly because writing to the physical device is being deferred to a future time. In the meantime, the data destined for the device is piling up in memory. From time to time, the op erating system will write this data to the physical device.
+
+Unmounting a device entails writing all the remaining data to the device so that it can be safely removed. If the device is removed without unmounting it first, the possibility exists that not all the data destined for the device has been transferred. In some cases, this data may include vital directory updates, which will lead to file system corruption, one of the worst things that can happen on a computer.
+
+##### Determining Device Names
+
+It's sometimes difficult to determine the name of a device. In the old days, it wasn't very hard. 
+A device was always in the same place and it didn't change. Unix-like systems like it that way. When Unix was developed, “changing a disk drive” involved using a forklift to remove a washing machine-sized device from the computer room. 
+In recent years, the typical desktop hardware configuration has become quite dynamic, and Linux has evolved to become more flexible than its ancestors. 
+
+the modern Linux desktop is able to “automagically” mount the device and then determine the name after the fact. 
+But what if we are managing a server or some other environment where this does not occur? 
+How can we figure it out
+
+<img width="758" height="598" alt="Pasted image 20250902185609" src="https://github.com/user-attachments/assets/b053ed9a-a584-43f7-a376-5977008f0c45" />
+
+
+If you are working on a system that does not automatically mount removable devices, you can use the following technique to determine how the removable device is named when it is attached. First, start a real-time view of the /var/log/messages or / var/log/syslog file (you may require superuser privileges for this).
+
+```Bash 
+sudo tail -f /var/log/messages
+
+# this log as an example of a removable device like USB connected to the system,
+# after run the above command and connect the USB, this log will rises
+
+Jul 23 10:07:59 linuxbox kernel: sdb: sdb1 
+Jul 23 10:07:59 linuxbox kernel: sd 3:0:0:0: [sdb] Attached SCSI removable disk
+
+# /dev/sdb  ====> the device name for the entire device 
+# /dev/sdb1 ====> for name of the first partition on the device
+```
+
+we can now mount the flash drive.
+```bash 
+sudo mkdir /mnt/flash 
+sudo mount /dev/sdb1 /mnt/flash 
+df
+```
+
+
+
+
+<br>
+
+#### Creating New File Systems
+ Let's say that we want to reformat the flash drive with a Linux native file system, rather than the FAT32 system it has now. This involves two steps. 
+ 1. (optional) Create a new partition layout if the existing one is not to our liking. 
+ 2. Create a new, empty file system on the drive
+##### Manipulating Partitions with fdisk
+**fdisk** is one of a host of programs (both command line and graphical) that allow us **to interact directly with disk-like devices** (such as hard disk drives and flash drives) **at a very low level**. 
+With this tool we can **edit**, **delete**, and **create** partitions on the device. 
+
+for example: if assume we have a flash drive and we need manipulate it:
+```bash
+sudo umount /dev/sdb1 
+sudo fdisk /dev/sdb
+# specify the device in terms of the entire device, not by partition number. (sdb, not sdb1)
+
+# you will see the following prompt:
+Command (m for help):
+
+a toggle a bootable flag
+b edit bsd disklabel 
+c toggle the dos compatibility flag 
+d delete a partition 
+l list known partition types 
+m print this menu 
+n add a new partition 
+o create a new empty DOS partition table 
+p print the partition table 
+q quit without saving changes 
+s create a new empty Sun disklabel 
+t change a partition's system id 
+u change display/entry units 
+v verify the partition table 
+w write table to disk and exit 
+x extra functionality (experts only)
+
+Command (m for help):
+```
+
+##### Creating a New File System with mkfs.
+use **mkfs** (short for “**make file system**”), which can **create file systems** in a **variety of formats**. 
+
+for example 
+- to create an **ext4** file system on the device, we use the `-t` option to specify the ext4 system type, followed by the name of the device containing the partition we want to format.
+
+```Bash
+# to create an ext4 file system on the device
+sudo mkfs -t ext4 /dev/sdb1
+
+# to reformat the device to its original FAT32 file system
+sudo mkfs -t vfat /dev/sdb1
+```
+
+
+
+<br>
+
+#### Testing and Repairing File Systems
+
+**fsck program**:
+
+- #### check the integrity of file systems
+	- In our earlier discussion of the **/etc/fstab** file, we saw some **mysterious digits at the end of each line**.  Each time the **system boots**, it **routinely checks** the **integrity** of the **file systems** **before mounting** them. 
+	  This is **done by the fsck** program (short for “file system check”). 
+	- The **last number** in each fstab entry specifies **the order** in which **the devices are to be checked**. In our previous example, we see that the root file system is checked first, followed by the home and boot file systems. 
+	- **Devices** with a **zero as the last digit** are **not routinely checked**. 
+
+- #### repair corrupt file systems 
+  with varying degrees of success, depending on the amount of damage. 
+  In addition to On Unix-like file systems, recovered portions of files are placed in the **lost+found directory**, located in the root of each file system.
+
+```bash
+sudo fsck /dev/sdb1
+```
+
+
+<br>
+
+#### Moving Data Directly to and from Devices
+
+While we usually think of data on our computers as being organized into files, it is also possible to think of the data in “raw” form. 
+If we look at a disk drive, for example, we see that it consists of a large number of “blocks” of data that the operating system sees as directories and files. 
+
+However, if we could treat a disk drive as simply a **large collection of data blocks**, we could perform useful tasks, such as **cloning devices**. The **dd** program **performs this task**. It **copies blocks** **of data** from one place to another. 
+It uses a **unique syntax** (for historical reasons) and is usually used this way:
+```Bash
+dd if=input_file of=output_file [bs=block_size [count=blocks]]
+```
+
+> **Warning!** The dd command is very powerful. Though its name derives from “**data definition**” it is sometimes called “**destroy disk**” because users often mistype either the if or of specification. 
+> Always double-check your input and output specifications before pressing enter!
+
+
+
+<br>
+
+#### Creating CD-ROM Images
+ Writing a recordable CD-ROM (either a CD-R or CD-RW) consists of two steps: 
+ 1. **Constructing** an **iso image file** that is the exact file system image of the CD-ROM 
+ 2. **Writing** the **image file** onto the **CD-ROM media**
+ 
+##### Creating an Image Copy of a CD-ROM
+If we want to **make an ISO image** of an **existing CD-ROM**, 
+we can use **dd** to **read** all the **data blocks off the CD-ROM** and **copy them** to a **local file**. 
+
+For Example: 
+Say we had an **Ubuntu CD** and we wanted to **make an ISO file** that we could **later use to make more copies**. After inserting the CD and determining its device name (we’ll assume /dev/cdrom), we can make the ISO file like so:
+```bash
+dd if=/dev/cdrom of=ubuntu.iso 
+```
+This technique **works** for **data DVDs** as **well**. But, will **not work for audio CDs**, as they do not use a file system for storage. **For audio CDs**, look at the **cdrdao** command.
+
+##### Creating an Image From a Collection of Files
+- **genisoimage** program: to create an **ISO image file** containing the **contents of a directory**. 
+To do this:
+1. **create** a directory **containing all the files** we want to include in the image
+2. **execute** the **genisoimage** command to create the image file. 
+
+For example, if we had created a directory called **~/cd-rom-files** and filled it with files for our **CD-ROM**
+```Bash
+genisoimage -o cd-rom.iso -R -J ~/cd-rom-files
+
+# -R =====> adds metadata for the Rock Ridge extensions, which allows the use of long filenames and POSIX-style file permissions.
+
+# -J =====> enables the Joliet extensions, which permit long filenames for Windows.
+```
+
+
+> **Note!!** 
+> If you look at online tutorials for creating and burning optical media like CD ROMs and DVDs, you will frequently encounter two programs called mkisofs and cdrecord. These programs were part of a popular package called cdr tools authored by Jörg Schilling. In the summer of 2006, Mr. Schilling made a license change to a portion of the cdrtools package, which, in the opinion of many in the Linux community, created a license incompatibility with the GNU GPL. As a result, a fork of the cdrtools project was started that now includes re placement programs for cdrecord and mkisofs named wodim and genisoimage, respectively
+
+
+
+
+<br>
+
+#### Writing CD-ROM Images
+##### Mounting an ISO Image Directly	
+There is a **trick** that we can use **to mount an ISO image** while **it is still on our hard disk and treat it as though it were already on optical media**. 
+- By adding the “**-o loop**” option to mount, we can **mount the image file** as though **it were a device** and **attach it to the file system tree**. 
+```Bash
+mkdir /mnt/iso_image mount -t iso9660 -o loop image.iso /mnt/iso_image 
+
+# -t iso9660 ====> file system type
+```
+
+In the example above,
+- created a mount point named /mnt/iso_image 
+- then mounted the image file image.iso at that mount point. 
+After the image is mounted, it can be treated just as though it were a real CD-ROM or DVD. Remember to unmount the image when it is no longer needed.
+
+
+
+##### Blanking a Rewritable CD-ROM
+**Rewritable CD-RW media** needs to be **erased or blanked** **before** it can be **reused**. 
+To do this, we can use **wodim**, specifying:
+- the **device name for the CD writer** 
+- the **type of blanking to be performed**. 
+  The wodim program offers several types. The **most minimal** (and **fastest**) is the “**fast**” type. 
+```bash
+wodim dev=/dev/cdrw blank=fast
+```
+
+
+##### Writing an Image
+To **write an image**, use **wodim**, specifying:
+- the name of the optical media writer device 
+- the name of the image file. 
+
+```Bash
+wodim dev=/dev/cdrw image.iso
+```
+
+ In addition to the device name and image file, wodim supports a large set of options. 
+ Two common ones are:
+ - **-v** for verbose output
+ - **-dao** which writes the disc in **disc at-once** mode. 
+   This mode should be used if you are **preparing a disc** for commercial reproduction. 
+   The **default mode** for wodim is **track-at-once**, which is **useful** for recording **music tracks**.
+
+<br>
+
+#### Verify ISO Image Integrity
+
+In most cases, a **distributor of an ISO image** will also **supply** a **checksum file**. 
+A **checksum** is the **result** of an **exotic mathematical calculation** resulting in a number that represents the content of the target file. 
+If the contents of the file change by even one bit, the resulting checksum will be much different. 
+
+The most common method of **checksum generation** uses the **md5sum** program. When you use md5sum, it **produces a unique hexadecimal number**.
+
+For example: 
+```Bash
+md5sum image.iso 34e354760f9bb7fbf85c96f6a3f94ece image.iso
+```
+After you download an image, you should **run md5sum** against it and **compare the results** with the **md5sum value supplied by the publisher**
+
+
+
+**md5sum** can be used not only to check the integrity of downloaded files but also to **verify data written to optical media** (like **CDs**/**DVDs**).
+- **Step 1:** Calculate the checksum of the original image file.
+- **Step 2:** Calculate the checksum of the burned media.
+    - Optical media is written in **2,048-byte blocks**.
+    - **To verify correctly**, you must **read only** as many blocks from the media as the image file contains.
+    - **For CDs** (disc-at-once mode), a direct checksum of `/dev/cdrom` often works.
+    - **For DVDs**, you need to calculate the number of blocks precisely and use `dd` to read that portion before piping it to `md5sum`.
+    
+For example:
+
+```Bash
+md5sum dvd-image.iso; dd if=/dev/dvd bs=2048 count=$(( $(stat -c "%s" dvd-image.iso) / 2048 )) | md5sum
+
+# First md5sum gives the checksum of the ISO file.
+# Second command gives the checksum of the data physically read from the DVD.  
+# If both checksums match ===> DVD was burned correctly, no corruption.
+# If they differ ===> burning failed or data got corrupted.
+```
+
+<br>
+
+#### useful tools 
+
+Disk Usage and Storage Overview
+- **df**:  Shows disk space usage for mounted filesystems.
+- **du**:  Shows disk usage for files and directories.
+- **lsblk**: Lists information about block devices (disks, partitions, etc.).
+- **blkid**: Displays block device attributes such as UUID, TYPE, and LABEL.
+  
+<br>
+
+#### Search for files in mounted file systems `locate` vs `find`
+##### Locate command
+**How it works:**  
+- Searches a pre-generated index (`mlocate` database) for file names or paths → results appear instantly.
+    
+**Limitations:**
+- Database is **not real-time**. New files won’t appear until the database is updated.        
+- The database updates **daily** by default. Root can run `updatedb` to refresh it immediately.
+- Results are restricted: user must have search permission on the containing directory
+        
+**Useful options:**
+ - `-i` → Case-insensitive search.    
+ - `-n` → Limit the number of results.
+
+**Examples:**
+```Bash
+locate passwd 
+locate -i messages 
+locate -n 5 messages
+```
+
+
+
+##### Find command
+Unlike `locate`, `find` searches the **file system in real time**, making it slower but more accurate and versatile.
+###### Find by Name
+```Bash
+find / -name sshd_config
+find / -name '*.txt'
+find / -iname '*messages*'   # Case-insensitive
+```
+
+###### Find by Ownership
+```Bash
+# -user USER     ===>  Files owned by a specific user.
+# -group GROUP   ===> Files owned by a group.  
+# -uid / -gid    ===> Search by numeric ID.
+
+find /home/user -user USERNAME
+find /home/user -group USERNAME
+```
+
+###### Find by Permission
+```Bash
+# -perm MODE   ===> Match exact permission values.    
+# Use octal values (4 = read, 2 = write, 1 = execute).
+
+find /home -perm 764     # rwx for user, rw for group, r for others 
+find /home -perm -324    # at least write+execute for user, write for group, read for others 
+find /home -perm /442    # matches any file with these bits set
+```
+
+###### Find by Size
+```Bash
+# Units: k (KB), M (MB), G (GB).    
+# Prefixes: + (greater than), - (less than), no prefix (exact).
+find / -size 10M      # exactly 10 MB
+find / -size +10G     # greater than 10 GB
+find / -size -10k     # smaller than 10 KB
+```
+
+###### Find by Modification Time
+```Bash
+# -mmin N   ===> Files modified _exactly N minutes ago_.
+# -mmin +N  ===> Modified more than N minutes ago.
+# -mmin -N  ===> Modified less than N minutes ago.
+
+find / -mmin 120 
+find / -mmin +200
+
+
+# The time options (-atime, -ctime, and -mtime) enable you to search based on the number of days, # the min options (-amin, -cmin, and -mmin) do the same in minutes.
+find /etc/ -atime -10     # if any file could be accessed for last 10 days ago
+find /etc/ -ctime -10     # if any file could be changed for last 10 days ago
+find /etc/ -mtime -10     # if any file had its metadata changed for last 10 days
+
+```
+
+###### Find by Type
+```Bash
+# -type f  ===> Regular file  
+# -type d  ===> Directory
+# -type l  ===> Symbolic link
+# -type b  ===> Block device
+
+find /etc -type d      # all directories under /etc 
+find / -type l         # all symlinks 
+find /dev -type b      # all block devices
+```
+
+###### Find and Execute command
+```Bash
+# With the -exec option, the command you use is executed on every file found, without stopping to ask if that’s okay. 
+# The -ok option stops at each matched file and asks whether you want to run the command on it.
+
+find [options] -exec command {} \;
+find [options] -ok command {} \;
+
+# Example1:
+find /etc -iname passwd -exec echo "I found {}" \; 
+# I found /etc/pam.d/passwd 
+# I found /etc/passwd
+
+# Example2:
+find /usr/share -size +5M -exec du {} \; | sort -nr 
+# 116932 /usr/share/icons/HighContrast/icon-theme.cache 
+# 69048 /usr/share/icons/gnome/icon-theme.cache 
+# 20564 /usr/share/fonts/cjkuni-uming/uming.ttc
+
+# Example3:
+find /var/allusers/ -user joe -ok mv {} /tmp/joe/ \; 
+# < mv ... /var/allusers/dict.dat > ? y 
+# < mv ... /var/allusers/five > ? y
+```
+
+
+##### find VS locate
+
+| Feature          | `locate`                          | `find`                          |
+| ---------------- | --------------------------------- | ------------------------------- |
+| **Speed**        | Very fast (uses database)         | Slower (real-time search)       |
+| **Accuracy**     | May miss new files (needs update) | Always accurate                 |
+| **Search scope** | Name/path only                    | Name, size, time, owner, perms… |
+| **Permissions**  | Requires directory search rights  | Direct filesystem traversal     |
+| **Best for**     | Quick lookups                     | Complex, detailed searches      |
+
+
+
 
