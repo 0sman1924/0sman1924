@@ -12,15 +12,30 @@ these are notes for Red Hat Enterprise Linux System Administration I
 
 
 ## Quick Access Content 
+- [CH01_Install RHEL 9](#ch01_install-rhel-9-step-by-step)
+	- [Prerequisites To Install Red Hat Enterprise Linux on VMWare Workstation]()
+	- [minimal requirements for RHEL virtual machine ]()
 
-[CH03_Managing Files From the Command Line](#ch03_managing-files-from-the-command-line)
+- [CH02_Accessing the Command Line](#ch02_accessing-the-command-line)
+	- [some common commands](#some-common-commands)
+	- [some important terminal shortcuts](#some-important-terminal-shortcuts)
+
+- [CH03_Managing Files From the Command Line](#ch03_managing-files-from-the-command-line)
+	- [Understand file system hierarchy.](#understand-file-system-hierarchy)
+	- [Specify what of files are available in Linux](#specify-what-of-files-are-available-in-linux)
+	- [Access directories using absolute and relative path.](#access-directories-using-absolute-and-relative-path)
+	- [List the contents of directories](#list-the-contents-of-directories)
+	- [Create, copy, move, and remove files and directories](#create-copy-move-and-remove-files-and-directories)
+	- [Create hard links and soft links. & what is Inode Index](#create-hard-links-and-soft-links--what-is-inode-index)
+	- [Efficiently run commands affecting many files by using pattern matching features of the Bash shell.](#efficiently-run-commands-affecting-many-files-by-using-pattern-matching-features-of-the-bash-shell)
+
 
 <br>
 <br>
 <br>
 
 
-### CH01_Install RHEL 9 Step by Step
+### CH01_Install RHEL 9
 
 #### Prerequisites To Install Red Hat Enterprise Linux on VMWare Workstation
 ##### OPTION 1
