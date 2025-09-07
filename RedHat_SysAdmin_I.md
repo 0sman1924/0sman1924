@@ -12,7 +12,7 @@ these are notes for Red Hat Enterprise Linux System Administration I
 
 
 ## Quick Access Content 
-- [CH01_Install RHEL 9](#ch01_install-rhel-9-step-by-step)
+- [CH01_Install RHEL 9](#ch01_install-rhel-9)
 	- [Prerequisites To Install Red Hat Enterprise Linux on VMWare Workstation](#prerequisites-to-install-red-hat-enterprise-linux-on-vmware-workstation)
 	- [minimal requirements for RHEL virtual machine ](#minimal-requirements-for-rhel-virtual-machine)
 
