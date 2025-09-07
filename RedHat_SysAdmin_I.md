@@ -13,8 +13,8 @@ these are notes for Red Hat Enterprise Linux System Administration I
 
 ## Quick Access Content 
 - [CH01_Install RHEL 9](#ch01_install-rhel-9-step-by-step)
-	- [Prerequisites To Install Red Hat Enterprise Linux on VMWare Workstation]()
-	- [minimal requirements for RHEL virtual machine ]()
+	- [Prerequisites To Install Red Hat Enterprise Linux on VMWare Workstation](#prerequisites-to-install-red-hat-enterprise-linux-on-vmware-workstation)
+	- [minimal requirements for RHEL virtual machine ](#minimal-requirements-for-rhel-virtual-machine)
 
 - [CH02_Accessing the Command Line](#ch02_accessing-the-command-line)
 	- [some common commands](#some-common-commands)
@@ -28,6 +28,104 @@ these are notes for Red Hat Enterprise Linux System Administration I
 	- [Create, copy, move, and remove files and directories](#create-copy-move-and-remove-files-and-directories)
 	- [Create hard links and soft links. & what is Inode Index](#create-hard-links-and-soft-links--what-is-inode-index)
 	- [Efficiently run commands affecting many files by using pattern matching features of the Bash shell.](#efficiently-run-commands-affecting-many-files-by-using-pattern-matching-features-of-the-bash-shell)
+
+ - [CH04_Getting Help in Red Hat Enterprise Linux](#ch04_getting-help-in-red-hat-enterprise-linux)
+	- [Common Sections of the Linux Manual](#common-sections-of-the-linux-manual)
+	- [manual page sections](#manual-page-sections)
+	- [Notes](#notes)
+	- [Another documentations to get help](#another-documentations-to-get-help)
+
+
+- [CH05_Creating, Viewing, and Editing Text Files](#ch05_creating-viewing-and-editing-text-files)
+	- [Input Output Redirection](#input-output-redirection)
+	- [Constructing Pipelines](#constructing-pipelines)
+	- [VIM text editor](#vim-text-editor)
+	- [Variables in Linux](#variables-in-linux)
+
+
+- [CH06_Managing Local Users and Groups](#ch06_managing-local-users-and-groups-done)
+	- [User Identifier UID](#user-identifier-uid)
+	- [Group ID GID](#group-id-gid)
+	- [SUDO permissions](#sudo-permissions)
+	- [Grant Super user access](#grant-super-user-access)
+	- [CRUD operations for users](#crud-operations-for-users)
+	- [CRUD operations for groups](#crud-operations-for-groups)
+	- [managing user passwords](#managing-user-passwords)
+	- [Restricting Access to User Accounts](#restricting-access-to-user-accounts)
+
+
+- [CH07_ Controlling Access to Files](#ch07_-controlling-access-to-files-done)
+	- [Linux File-system Permission](#linux-file-system-permission)
+ 	- [change permissions of files & Directories](#change-permissions-of-files--directories)
+	- [change file & directory ownership](#change-file--directory-ownership)
+	- [Set Special Permissions](#set-special-permissions)
+	- [Default Permissions](#default-permissions)
+
+
+- [CH08_Monitoring and Managing Linux Processes](#ch08_monitoring-and-managing-linux-processes-done)
+	- [Listing Processes](#listing-processes)
+	- [manage foreground & background processes](#manage-foreground--background-processes)
+	- [Killing a Processes](#killing-a-processes)
+	- [real-time processes monitoring](#real-time-processes-monitoring)
+	- [Linux process scheduling and multitasking](#linux-process-scheduling-and-multitasking)
+
+
+- [CH09_Controlling Services and Daemons](#ch09_controlling-services-and-daemons)
+	- [Intro to systemd](#intro-to-systemd)
+	- [systemctl](#systemctl)
+	- [Service Unit Information](#service-unit-information)
+	- [Service state in the output of systemctl](#service-state-in-the-output-of-systemctl)
+	- [Control system services](#control-system-services)
+
+
+- [CH10_Configuring and Securing SSH](#ch10_configuring-and-securing-ssh-done)
+	- [Access the Remote Command Line with SSH](#access-the-remote-command-line-with-ssh)
+	- [Configure SSH Key-based Authentication](#configure-ssh-key-based-authentication)
+	- [Customizing open SSH service configuration](#customizing-open-ssh-service-configuration)
+
+
+- [CH11_Analyzing and Storing Logs](#ch11_analyzing-and-storing-logs-done)
+	- [System Log Architecture](#system-log-architecture)
+	- [Review Syslog Files](#review-syslog-files)
+	- [Review System Journal Entries](#review-system-journal-entries)
+	- [Change the Timezone in Linux](#change-the-timezone-in-linux)
+
+	
+- [CH12_Managing Networking](#ch12_managing-networking)
+	- [Gathering Interface Information](#gathering-interface-information)
+	- [Testing Connectivity Between Hosts](#testing-connectivity-between-hosts)
+	- [Troubleshooting Ports & Services](#troubleshooting-ports--services)
+	- [configure network from CLI (nmcli command)](#configure-network-from-cli-nmcli-command)
+	- [Modify Network Configuration files](#modify-network-configuration-files)
+	- [delete a network connection](#delete-a-network-connection)
+	- [who can modify network settings??](#who-can-modify-network-settings)
+	- [Configure hostnames & name resolution](#configure-hostnames--name-resolution)
+	- [summary of common nmcli commands](#summary-of-common-nmcli-commands)
+ 
+	
+- [CH13_Archiving and Transferring Files]()
+	- [Managing compressed TAR Archives](#managing-compressed-tar-archives)
+	- [Transferring Files & Directories](#transferring-files--directories)
+
+
+- [CH14_Installing and Updating Software Packages]()
+	- [Packaging Systems](#packaging-systems)
+	- [How a Package System Works](#how-a-package-system-works)
+	- [High and Low-level Package Tools](#high-and-low-level-package-tools)
+	- [Common Package Management Tasks](#common-package-management-tasks)
+	- [Notes](#notes-2)
+	- [Additional Resources](#additional-resources)
+
+- [CH15_ Accessing Linux File Systems]()
+	- [Mounting and Unmounting Storage Devices](#mounting-and-unmounting-storage-devices)
+	- [Creating New File Systems](#creating-new-file-systems)
+	- [Testing and Repairing File Systems](#testing-and-repairing-file-systems)
+	- [Moving Data Directly to and from Devices](#moving-data-directly-to-and-from-devices)
+	- [Creating CD-ROM Images](#creating-cd-rom-images)
+	- [Writing CD-ROM Images](#writing-cd-rom-images)
+	- [Verify ISO Image Integrity](#verify-iso-image-integrity)
+	- [useful tools](#useful-tools)
+	- [Search for files in mounted file systems `locate` vs `find`](#search-for-files-in-mounted-file-systems-locate-vs-find)
 
 
 <br>
