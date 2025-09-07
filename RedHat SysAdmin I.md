@@ -1,3 +1,10 @@
+
+## Quick access
+
+[CH03_Managing Files From the Command Line](#ch03_managing-files-from-the-command-line)
+
+
+
 ### CH02_Accessing the Command Line
 - A command line is a **text-based interface** which can be used to input instructions to a computer system.
 - The **default shell** for users in Red Hat Enterprise Linux is the **CNU Bourne-Again Shell** (**bash**).
@@ -27,7 +34,7 @@
 <br>
 <br>
 
-### CH03_Managing Files From the Command Line (DONE)
+### CH03_Managing Files From the Command Line
 
 #### Understand file system hierarchy.
 
